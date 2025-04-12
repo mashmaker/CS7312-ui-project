@@ -1,16 +1,19 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+
+import { Stack } from "@mui/material";
 import Page from "../layout/Page";
+
+import AlertListHeader from "./AlertListHeader.component";
 import AlertListDataGrid from "./AlertListDataGrid.component";
 
 const AlertList = () => {
+  const [showClosed, setShowClosed] = useState(false);
+
   return (
     <Page>
       <Stack direction="column" spacing={4}>
-        <Box display="flex" justifyContent="space-between">
-          <Typography variant="h4">Alerts List</Typography>
-        </Box>
-
-        <AlertListDataGrid />
+        <AlertListHeader showClosed={showClosed} onToggleShowClosed={setShowClosed} />
+        <AlertListDataGrid showClosed={showClosed} />
       </Stack>
     </Page>
   )

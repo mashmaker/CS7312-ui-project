@@ -118,11 +118,26 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
   },
 ];
 
-export default function DataGridDemo() {
+export type AlertListDataGridProps = {
+  showClosed: boolean,
+}
+
+const AlertListDataGrid = ({ showClosed }: AlertListDataGridProps) => {
+  const visibleRows = showClosed ? rows : rows.filter((row) => row.state !== State.Closed);
+
   return (
     <DataGrid
-      rows={rows}
+      rows={visibleRows}
       columns={columns}
+      getRowClassName={({ row }) => row.state}
+      sx={{
+        [`.${State.Closed}`]: {
+          bgcolor: "grey",
+          "&:hover": {
+            bgcolor: "darkgrey",
+          },
+        },
+      }}
       initialState={{
         pagination: {
           paginationModel: {
@@ -134,3 +149,5 @@ export default function DataGridDemo() {
     />
   );
 }
+
+export default AlertListDataGrid;
