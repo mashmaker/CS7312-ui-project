@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     Component: AlertList,
   },
   {
-    path: "/{id}",
+    path: "/:id",
     Component: AlertDetail,
   },
 ]);

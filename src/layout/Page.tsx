@@ -9,7 +9,7 @@ const Page = ({ children }: PageProps) => (
   <>
     <TopNav />
 
-    <Box paddingY={4} paddingX={8}>
+    <Box paddingY={4} paddingX={32}>
       {children}
     </Box>
   </>
