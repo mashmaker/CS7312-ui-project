@@ -4,9 +4,10 @@ import { useCallback, useState } from "react";
 
 export type AlertListSearchProps = {
   onSearch: (newQuery: string) => void;
+  defaultQuery?: string;
 }
 
-const AlertListSearch = ({ onSearch }: AlertListSearchProps) => {
+const AlertListSearch = ({ onSearch, defaultQuery }: AlertListSearchProps) => {
   const [newQuery, setNewQuery] = useState<string>("");
 
   const handleSearch = useCallback<React.FormEventHandler<HTMLFormElement>>((evt) => {
@@ -22,6 +23,7 @@ const AlertListSearch = ({ onSearch }: AlertListSearchProps) => {
           type="text"
           fullWidth
           label="Search.."
+          defaultValue={defaultQuery}
           helperText="Syntax: fieldname1=value1,fieldname2=value2 (ex. state=New,severity=Critical)"
           onChange={(evt) => setNewQuery(evt.target.value)}
         />
@@ -29,8 +31,7 @@ const AlertListSearch = ({ onSearch }: AlertListSearchProps) => {
         <Button
           type="submit"
           variant="contained"
-          size="medium"
-          disabled={!newQuery}
+          size="large"
           sx={{ height: "50px" }}
         >
             <Typography>Search</Typography>

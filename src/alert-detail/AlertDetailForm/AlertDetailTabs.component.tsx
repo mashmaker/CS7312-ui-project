@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { Box, Button, Grid, Tab, Tabs, TextField, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import AlertListDataGrid from "../../alert-list/AlertListDataGrid/AlertListDataGrid.component";
+import { Alert } from "../../alert/alert.type";
 
-const AlertDetailTabs = () => {
+export type AlertDetailTabsProps = {
+  alert: Alert
+};
+
+const AlertDetailTabs = ({ alert }: AlertDetailTabsProps) => {
   const [tab, setTab] = useState<number>(0);
   const [isEditable, setIsEditable] = useState<boolean>(false);
 
@@ -100,8 +106,12 @@ const AlertDetailTabs = () => {
       )}
 
       {tab === 1 && (
-        <Box>
-          Related Alerts
+        <Box marginTop={2}>
+          <AlertListDataGrid
+            showClosed
+            excludeId={alert.id}
+            defaultQuery={`title=${alert.title}`}
+          />
         </Box>
       )}
     </>

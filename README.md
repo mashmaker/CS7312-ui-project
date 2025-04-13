@@ -15,3 +15,4 @@ Run `npm run dev`
 - [ ] Fix editing alert detail fields
 - [ ] Seed creation date, assignee/review
 - [ ] Add configurable alert detail fields
+- [ ] Add linting

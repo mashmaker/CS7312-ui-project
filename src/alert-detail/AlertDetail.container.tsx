@@ -122,7 +122,7 @@ const AlertDetail = () => {
         }
       />
 
-      <AlertDetailTabs />
+      <AlertDetailTabs alert={alert} />
     </Page>
   )
 }
