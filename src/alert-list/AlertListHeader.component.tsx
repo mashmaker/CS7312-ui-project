@@ -1,13 +1,15 @@
 import { Box, Stack, Switch, Typography } from "@mui/material";
 
 export type AlertListHeaderProps = {
-  showClosed: boolean,
-  onToggleShowClosed: (showClosed: boolean) => void,
+  showClosed: boolean;
+  onToggleShowClosed: (showClosed: boolean) => void;
+  numNewAlerts: number;
 }
 
 const AlertListHeader = ({
   showClosed,
   onToggleShowClosed,
+  numNewAlerts,
 }: AlertListHeaderProps) => {
   const handleToggleShowClosed = () => onToggleShowClosed(!showClosed);
 
@@ -21,6 +23,8 @@ const AlertListHeader = ({
           <Typography>Show Closed Alerts</Typography>
         </Box>
       </Stack>
+
+      <Typography variant="h5"># New Alerts: {numNewAlerts}</Typography>
     </Box>
   )
 }

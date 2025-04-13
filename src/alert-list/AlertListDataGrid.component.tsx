@@ -1,66 +1,17 @@
+import { useEffect, useState } from 'react';
+
+import { NavLink } from 'react-router-dom';
+import { Button } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
+import { type Alert, AlertState, AlertSeverity } from "../alert/alert.type";
 import CriticalSeverity from '../shared/severity/CriticalSeverity';
 import HighSeverity from '../shared/severity/HighSeverity';
 import MediumSeverity from '../shared/severity/MediumSeverity';
 import LowSeverity from '../shared/severity/LowSeverity';
-import { Box, Button } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import SAMPLE_ALERTS from '../alert/sample-data';
 
-enum Severity {
-  Critical = "Critical",
-  High = "High",
-  Medium = "Medium",
-  Low = "Low",
-}
-
-enum State {
-  New = "New",
-  Triage = "Triage",
-  Investigating = "Investigating",
-  Review = "Review",
-  Escalated = "Escalated",
-  Closed = "Closed",
-}
-
-const rows = [
-  {
-    id: 1,
-    title: 'Potential Ransomware',
-    severity: Severity.Critical,
-    state: State.New,
-    age: "5 minutes",
-  },
-  {
-    id: 2,
-    title: 'Potential Breach',
-    severity: Severity.High,
-    state: State.Triage,
-    age: "10 minutes",
-  },
-  {
-    id: 3,
-    title: 'Failed Login',
-    severity: Severity.Medium,
-    state: State.Review,
-    age: "1 hour",
-  },
-  {
-    id: 4,
-    title: 'Potential Phishing',
-    severity: Severity.Low,
-    state: State.Escalated,
-    age: "4 days",
-  },
-  {
-    id: 5,
-    title: 'Potential Phishing',
-    severity: Severity.Medium,
-    state: State.Closed,
-    age: "1 year",
-  },
-];
-
-const columns: GridColDef<(typeof rows)[number]>[] = [
+const columns: GridColDef<Alert>[] = [
   {
     field: 'age',
     headerName: 'Age',
@@ -71,19 +22,19 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     headerName: 'Severity',
     width: 150,
     renderCell: ({ row }) => {
-      if (row.severity === Severity.Critical) {
+      if (row.severity === AlertSeverity.Critical) {
         return <CriticalSeverity />
       }
 
-      if (row.severity === Severity.High) {
+      if (row.severity === AlertSeverity.High) {
         return <HighSeverity />
       }
 
-      if (row.severity === Severity.Medium) {
+      if (row.severity === AlertSeverity.Medium) {
         return <MediumSeverity />
       }
 
-      if (row.severity === Severity.Low) {
+      if (row.severity === AlertSeverity.Low) {
         return <LowSeverity />
       }
 
@@ -107,9 +58,9 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     headerName: '',
     width: 100,
     renderCell: ({ row }) => {
-      const linkText = row.state === State.New
+      const linkText = row.state === AlertState.New
         ? "Triage"
-        : row.state === State.Review
+        : row.state === AlertState.Review
           ? "Review"
           : "View";
 
@@ -119,35 +70,18 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
 ];
 
 export type AlertListDataGridProps = {
-  showClosed: boolean,
+  alerts: Alert[];
 }
 
-const AlertListDataGrid = ({ showClosed }: AlertListDataGridProps) => {
-  const visibleRows = showClosed ? rows : rows.filter((row) => row.state !== State.Closed);
-
-  return (
-    <DataGrid
-      rows={visibleRows}
-      columns={columns}
-      getRowClassName={({ row }) => row.state}
-      sx={{
-        [`.${State.Closed}`]: {
-          bgcolor: "grey",
-          "&:hover": {
-            bgcolor: "darkgrey",
-          },
-        },
-      }}
-      initialState={{
-        pagination: {
-          paginationModel: {
-            pageSize: 20,
-          },
-        },
-      }}
-      pageSizeOptions={[5, 10, 15, 20]}
-    />
-  );
-}
+const AlertListDataGrid = ({ alerts }: AlertListDataGridProps) => ((
+  <DataGrid
+    rows={alerts}
+    columns={columns}
+    getRowClassName={({ row }) => row.state}
+    sx={{ [`.${AlertState.Closed}`]: { bgcolor: "grey", "&:hover": { bgcolor: "darkgrey" } } }}
+    initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
+    pageSizeOptions={[5, 10, 15, 20]}
+  />
+))
 
 export default AlertListDataGrid;
