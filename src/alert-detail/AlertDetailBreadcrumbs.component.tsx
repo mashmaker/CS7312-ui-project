@@ -24,6 +24,7 @@ const AlertBreadcrumbs = ({ alertState }: AlertBreadcrumbsProps) => {
       paddingY: 1,
       paddingX: 2,
       '.active': {
+        color: "black",
         backgroundColor: '#7BA05B'
       },
       '.breadcrumb-item': {

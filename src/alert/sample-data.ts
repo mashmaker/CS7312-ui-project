@@ -103,4 +103,14 @@ const SAMPLE_ALERTS: Alert[] = [
   { id: 100, title: "Browser Cache Poisoning", severity: AlertSeverity.Medium, state: AlertState.Triage, age: "1 day", createdDate: "May 1st, 2025 12:00PM (CT)" }
 ]
 
+export const getSampleAlerts = (): Alert[] => SAMPLE_ALERTS;
+export const getSampleAlertById = (id: Alert["id"]): Alert => {
+  const alert = SAMPLE_ALERTS.find((alert) => alert.id === id);
+  if (!alert) {
+    throw new Error(`No alert exists with id ${id}`);
+  }
+
+  return alert;
+}
+
 export default SAMPLE_ALERTS

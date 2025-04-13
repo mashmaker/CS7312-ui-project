@@ -22,13 +22,17 @@ const AlertListSearch = ({ onSearch }: AlertListSearchProps) => {
           type="text"
           fullWidth
           label="Search.."
+          helperText="Syntax: fieldname1=value1,fieldname2=value2 (ex. state=New,severity=Critical)"
           onChange={(evt) => setNewQuery(evt.target.value)}
         />
 
         <Button
           type="submit"
           variant="contained"
-          sx={{ width: "150px" }}>
+          size="medium"
+          disabled={!newQuery}
+          sx={{ height: "50px" }}
+        >
             <Typography>Search</Typography>
             <SearchOutlinedIcon sx={{ marginLeft: 1 }} />
         </Button>
