@@ -7,8 +7,8 @@ export type AlertListSearchProps = {
   defaultQuery?: string;
 }
 
-const AlertListSearch = ({ onSearch, defaultQuery }: AlertListSearchProps) => {
-  const [newQuery, setNewQuery] = useState<string>("");
+const AlertListSearch = ({ onSearch, defaultQuery = "" }: AlertListSearchProps) => {
+  const [newQuery, setNewQuery] = useState<string>(defaultQuery);
 
   const handleSearch = useCallback<React.FormEventHandler<HTMLFormElement>>((evt) => {
     onSearch(newQuery);
