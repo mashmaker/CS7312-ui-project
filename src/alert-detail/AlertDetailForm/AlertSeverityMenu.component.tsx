@@ -17,9 +17,11 @@ const AlertSeverityMenu = ({
   const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)
   const handleMenuClose = () => setAnchorEl(null);
 
-  const handleMenuItemClick = (severity: AlertSeverity) => {
-    onChangeSeverity(severity);
+  const handleMenuItemClick = (newSeverity: AlertSeverity) => {
     handleMenuClose();
+    if (severity !== newSeverity) {
+      onChangeSeverity(newSeverity);
+    }
   }
 
   return (
@@ -46,7 +48,7 @@ const AlertSeverityMenu = ({
           const severity = Number(severityStr) as AlertSeverity; // typescript can't map this type correctly
 
           return (
-            <MenuItem onClick={() => handleMenuItemClick(severity)} disableRipple>
+            <MenuItem key={severityStr} onClick={() => handleMenuItemClick(severity)} disableRipple>
               <Typography>{ALERT_SEVERITY_LABELS[severity]}</Typography>
             </MenuItem>
           );

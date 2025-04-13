@@ -35,7 +35,12 @@ export enum AlertCategory {
   EDR,
 }
 
-export type Alert = {
+export const ALERT_CATEGORY_LABELS: Record<AlertCategory, string> = {
+  [AlertCategory.SIEM]: "SIEM",
+  [AlertCategory.EDR]: "EDR",
+};
+
+type BaseAlert = {
   id: number,
   title: string,
   category: AlertCategory,
@@ -47,9 +52,10 @@ export type Alert = {
   reviewedBy?: string,
   closedBy?: string,
   closeNotes?: string;
+  workNotes?: string;
 }
 
-export type SIEMAlert = Alert & {
+export type SIEMAlert = BaseAlert & {
   category: AlertCategory.SIEM,
   sourceHost: string;
   destinationHost: string;
@@ -59,10 +65,20 @@ export type SIEMAlert = Alert & {
   destinationUser: string;
 }
 
-export type EDRAlert = Alert & {
+export type EDRAlert = BaseAlert & {
   category: AlertCategory.EDR,
   isQuarantined: boolean;
   process: string;
   parentProcess: string;
   host: string;
+}
+
+export type Alert = SIEMAlert | EDRAlert;
+
+export const isSIEMAlert = (alert: Alert): alert is SIEMAlert => {
+  return alert.category === AlertCategory.SIEM;
+}
+
+export const isEDRAlert = (alert: Alert): alert is EDRAlert => {
+  return alert.category === AlertCategory.EDR;
 }

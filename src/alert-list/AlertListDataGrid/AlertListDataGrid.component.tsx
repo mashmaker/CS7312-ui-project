@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DateTime } from 'luxon';
 
 import { type Alert, ALERT_STATE_LABELS, AlertState } from "../../alert/alert.type";
 import Severity from '../../shared/Severity.component';
-import SAMPLE_ALERTS from '../../alert/sample-alerts';
 import AlertListSearch from './AlertListSearch.component';
-import { DateTime } from 'luxon';
+import { useSampleAlerts } from '../../alert/use-sample-alerts.hook';
 
 const columns: GridColDef<Alert>[] = [
   {
@@ -103,33 +103,33 @@ export type AlertListDataGridProps = {
 
 const AlertListDataGrid = ({ showClosed, excludeId, defaultQuery = "" }: AlertListDataGridProps) => {
   const [query, setQuery] = useState<string>(defaultQuery);
-  const [alerts, setAlerts] = useState<Alert[]>(SAMPLE_ALERTS);
+
+  const { alerts } = useSampleAlerts();
+  const [visibleAlerts, setVisibleAlerts] = useState<Alert[]>(alerts);
 
   useEffect(() => {
-    let visibleAlerts = SAMPLE_ALERTS;
+    const queryParts = query.split(",");
 
-    // filter out optional exclusion
-    if (excludeId) {
-      visibleAlerts = visibleAlerts.filter((alert) => alert.id !== excludeId);
-    }
+    setVisibleAlerts((oldVisibleAlerts) => oldVisibleAlerts.filter((alert) => {
+      if (alert.id === excludeId) {
+        return false;
+      }
 
-    // filter out closed alerts
-    if (!showClosed) {
-      visibleAlerts = visibleAlerts.filter((alert) => alert.state !== AlertState.Closed);
-    }
+      // filter out closed alerts
+      if (!showClosed && alert.state === AlertState.Closed) {
+        return false;
+      }
 
-    // filter alerts by command language
-    if (query) {
-      const queryParts = query.split(",");
-      queryParts.forEach((queryTerm) => {
-        const [key, value] = queryTerm.split("=");
-        visibleAlerts = visibleAlerts.filter((alert) => alert[key.toLowerCase() as keyof Alert] === value);
-      });
+      // filter by command language
+      if (queryParts.length > 0) {
+        return queryParts.every((queryTerm) => {
+          const [key, value] = queryTerm.split("=");
+          return alert[key.toLowerCase() as keyof Alert] === value;
+        });
+      }
 
-      setAlerts(visibleAlerts)
-    }
-
-    setAlerts(visibleAlerts)
+      return true;
+    }));
   }, [showClosed, query, excludeId]);
 
   return (
@@ -137,7 +137,7 @@ const AlertListDataGrid = ({ showClosed, excludeId, defaultQuery = "" }: AlertLi
       <AlertListSearch onSearch={setQuery} defaultQuery={defaultQuery} />
 
       <DataGrid
-        rows={alerts}
+        rows={visibleAlerts}
         columns={columns}
         getRowClassName={({ row }) => ALERT_STATE_LABELS[row.state]}
         sx={{

@@ -1,9 +1,9 @@
 import { DateTime } from "luxon";
-import { type Alert, AlertCategory, AlertSeverity, AlertState, EDRAlert, SIEMAlert } from './alert.type';
+import { type Alert, AlertCategory, AlertSeverity, AlertState } from './alert.type';
 
 const NOW = DateTime.now();
 
-const SAMPLE_ALERTS: Array<SIEMAlert | EDRAlert> = [
+const SAMPLE_ALERTS: Array<Alert> = [
   {
     id: 1001,
     title: "Brute Force Authentication Attempt",
@@ -454,13 +454,3 @@ const SAMPLE_ALERTS: Array<SIEMAlert | EDRAlert> = [
 ]
 
 export default SAMPLE_ALERTS;
-
-export const getSampleAlertById = (id: Alert["id"]): Alert => SAMPLE_ALERTS.find((alert) => alert.id === id) as Alert; // assume alert always exists
-
-export const isSIEMAlert = (alert: Alert): alert is SIEMAlert => {
-  return alert.category === AlertCategory.SIEM;
-}
-
-export const isEDRAlert = (alert: Alert): alert is EDRAlert => {
-  return alert.category === AlertCategory.EDR;
-}

@@ -1,5 +1,5 @@
 import { Grid, TextField, Typography } from "@mui/material";
-import { Alert, AlertSeverity, AlertState } from "../../alert/alert.type";
+import { Alert, AlertSeverity } from "../../alert/alert.type";
 import AlertDetailFormQuickAction from "./AlertDetailFormQuickAction.component";
 import AlertSeverityMenu from "./AlertSeverityMenu.component";
 import { DateTime } from "luxon";
@@ -25,10 +25,10 @@ const AlertDetailForm = ({
     <Grid container>
       <Grid size={10}>
         <Typography variant="h5" fontWeight="bold">{alert.title}</Typography>
-        <Typography variant="subtitle1" sx={{ paddingLeft: 2 }}>Created: {DateTime.fromJSDate(alert.createdOn).toISODate()}</Typography>
+        <Typography variant="subtitle1">Created: {DateTime.fromJSDate(alert.createdOn).toRFC2822()}</Typography>
       </Grid>
 
-      <Grid size={2}>
+      <Grid size={2} textAlign="right">
         <AlertSeverityMenu severity={alert.severity} onChangeSeverity={onChangeSeverity} />
       </Grid>
     </Grid>

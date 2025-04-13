@@ -1,22 +1,25 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Stack, Snackbar, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import Page from "../layout/Page";
 import AlertDetailHeader from "./AlertDetailHeader.component";
-import { getSampleAlertById } from "../alert/sample-alerts";
 import AlertDetailBreadcrumbs from "./AlertDetailBreadcrumbs.component";
 import AlertDetailForm from "./AlertDetailForm/AlertDetailForm.component";
-import { Alert, AlertSeverity, AlertState } from "../alert/alert.type";
-import AlertDetailTabs from "./AlertDetailForm/AlertDetailTabs.component";
+import { AlertSeverity, AlertState, EDRAlert, SIEMAlert } from "../alert/alert.type";
+import AlertDetailTabs from "./AlertDetailForm/AlertDetailTabs/AlertDetailTabs.component";
 import AlertDetailCloseConfirmationDialog from "./AlertDetailForm/AlertDetailCloseConfirmationDialog";
+import { useSampleAlerts } from "../alert/use-sample-alerts.hook";
 
 const TEST_USER = "Test User";
 
 const AlertDetail = () => {
-  const { id } = useParams();
-  const [alert, setAlert] = useState<Alert>(getSampleAlertById(Number(id)));
+  const { id: idStr } = useParams();
+  const id = useMemo(() => Number(idStr), [idStr]);
+
+  const { alerts, updateSampleAlert } = useSampleAlerts();
+  const alert = alerts.find((alert) => alert.id === id);
 
   const [notification, setNotification] = useState<string | null>(null);
   const handleCloseNotification = () => setNotification(null);
@@ -24,73 +27,79 @@ const AlertDetail = () => {
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false);
 
   const onTriageAlert = useCallback(() => {
-    setAlert((currAlert) => ({
-      ...currAlert,
+    updateSampleAlert(id, {
       state: AlertState.Triage,
       triagedBy: TEST_USER,
-    }));
+    });
 
     setNotification("You are triaging the alert");
-  }, []);
+  }, [id, updateSampleAlert]);
 
   const onInvestigate = useCallback(() => {
-    setAlert((currAlert) => ({
-      ...currAlert,
+    updateSampleAlert(id, {
       state: AlertState.Investigating,
       assignedTo: TEST_USER,
-    }));
+    });
 
     setNotification("You are investigating the alert");
-  }, []);
+  }, [id, updateSampleAlert]);
 
   const onCloseStart = () => setShowCloseDialog(true)
   const onCloseCancel = () => setShowCloseDialog(false)
   const onClose = useCallback((closeNotes: string) => {
-    setAlert((currAlert) => ({
-      ...currAlert,
+    updateSampleAlert(id, {
       state: AlertState.Closed,
       closeNotes,
       closedBy: TEST_USER,
-    }));
+    });
 
     setNotification("You have closed the alert");
     setShowCloseDialog(false);
-  }, []);
+  }, [id, updateSampleAlert]);
 
   const onReview = useCallback(() => {
-    setAlert((currAlert) => ({
-      ...currAlert,
+    updateSampleAlert(id, {
       state: AlertState.Review,
-    }));
+    });
 
     setNotification("You have requested a review");
-  }, []);
+  }, [id, updateSampleAlert]);
 
   const onChangeSeverity = useCallback((newSeverity: AlertSeverity) => {
-    setAlert((currAlert) => ({
-      ...currAlert,
+    updateSampleAlert(id, {
       severity: newSeverity
-    }));
+    });
 
     setNotification("You have changed the severity");
-  }, []);
+  }, [id, updateSampleAlert]);
 
   const onEscalate = useCallback(() => {
-    setAlert((currAlert) => ({
-      ...currAlert,
+    updateSampleAlert(id, {
       state: AlertState.Escalated,
       reviewedBy: TEST_USER,
-    }));
+    });
 
     setNotification("You have escalated the alert");
-  }, []);
+  }, [id, updateSampleAlert]);
+
+  const onFieldChange = useCallback(<T extends SIEMAlert | EDRAlert>(field: keyof T, value: T[keyof T]) => {
+    updateSampleAlert(id, {
+      [field]: value,
+    });
+
+    setNotification("Saved change");
+  }, [id, updateSampleAlert]);
 
   useEffect(() => {
     // automatically transition to triage when viewing new alert
-    if (alert.state === AlertState.New) {
+    if (alert?.state === AlertState.New) {
       onTriageAlert();
     }
-  }, [alert.state, onTriageAlert]);
+  }, [alert?.state, onTriageAlert]);
+
+  if (!alert) {
+    return <>No alert found with id</>
+  }
 
   return (
     <Page>
@@ -141,7 +150,7 @@ const AlertDetail = () => {
         }
       />
 
-      <AlertDetailTabs alert={alert} />
+      <AlertDetailTabs alert={alert} onFieldChange={onFieldChange} />
 
       <AlertDetailCloseConfirmationDialog
         open={showCloseDialog}
