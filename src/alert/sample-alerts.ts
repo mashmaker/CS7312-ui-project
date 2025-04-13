@@ -435,7 +435,7 @@ const SAMPLE_ALERTS: Array<Alert> = [
     id: 2015,
     title: "Unusual Browser Extension Installation",
     severity: AlertSeverity.Low,
-    state: AlertState.Closed,
+    state: AlertState.Escalated,
     createdOn: NOW.minus({ months: 9 }).toJSDate(),
     assignedTo: "alice.johnson@example.com",
     triaged: { user: "alice.johnson@example.com", date: NOW.minus({ months: 9 }).toJSDate() },
