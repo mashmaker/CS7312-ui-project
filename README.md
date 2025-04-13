@@ -1,13 +1,12 @@
 # NextGen Security Incident Response Interface
 
-## Setup
+## Installation
 
-Run `npm i` to install dependencies
+* [Install Node](https://nodejs.org/en/download) and add it to your PATH
+* Navigate to project directory `cd CS7312-ui-project`
+* Install dependencies `npm i`
 
-## Testing
+## Run Locally
 
-Run `npm run dev`
-
-## TODOs
-
-- [ ] Add linting
+* Follow Installation instructions
+* Run `npm run dev`
