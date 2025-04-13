@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { Button, Divider, Menu, MenuItem, Typography } from "@mui/material";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { useState } from 'react'
+import { Button, Divider, Menu, MenuItem, Typography } from '@mui/material'
+import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
-import { AlertState } from "../../alert/alert.type";
-import CloseIcon from "@mui/icons-material/Close";
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { AlertState } from '../../alert/alert.type'
+import CloseIcon from '@mui/icons-material/Close'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 type AlertDetailFormActionMenuProps = {
-  state: AlertState;
-  onTriage: () => void;
-  onInvestigate: () => void;
-  onReview: () => void;
-  onEscalate: () => void;
-  onCloseStart: () => void;
-};
+  state: AlertState
+  onTriage: () => void
+  onInvestigate: () => void
+  onReview: () => void
+  onEscalate: () => void
+  onCloseStart: () => void
+}
 
 const AlertDetailFormActionMenu = ({
   state,
@@ -21,37 +21,38 @@ const AlertDetailFormActionMenu = ({
   onInvestigate,
   onReview,
   onEscalate,
-  onCloseStart,
+  onCloseStart
 }: AlertDetailFormActionMenuProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
-  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)
-  const handleMenuClose = () => setAnchorEl(null);
+  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) =>
+    setAnchorEl(event.currentTarget)
+  const handleMenuClose = () => setAnchorEl(null)
 
   const handleTriageClick = () => {
-    onTriage();
-    handleMenuClose();
-  };
+    onTriage()
+    handleMenuClose()
+  }
 
   const handleInvestigateAlertClick = () => {
-    onInvestigate();
-    handleMenuClose();
-  };
+    onInvestigate()
+    handleMenuClose()
+  }
 
   const handleReviewClick = () => {
-    onReview();
-    handleMenuClose();
-  };
+    onReview()
+    handleMenuClose()
+  }
 
   const handleEscalateClick = () => {
-    onEscalate();
-    handleMenuClose();
-  };
+    onEscalate()
+    handleMenuClose()
+  }
 
   const handleCloseAlertClick = () => {
-    onCloseStart();
-    handleMenuClose();
-  };
+    onCloseStart()
+    handleMenuClose()
+  }
 
   if (state === AlertState.Closed) {
     return <></>
@@ -59,7 +60,12 @@ const AlertDetailFormActionMenu = ({
 
   return (
     <>
-      <Button onClick={handleMenuClick} variant="contained" size="large" fullWidth>
+      <Button
+        onClick={handleMenuClick}
+        variant="contained"
+        size="large"
+        fullWidth
+      >
         <Typography>Actions</Typography>
         <ArrowDropDownIcon />
       </Button>
@@ -74,16 +80,16 @@ const AlertDetailFormActionMenu = ({
             sx: {
               width: '325px',
               marginTop: 1
-            },
+            }
           }
         }}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'left'
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'left',
+          horizontal: 'left'
         }}
       >
         {state === AlertState.New && (
@@ -137,6 +143,6 @@ const AlertDetailFormActionMenu = ({
       </Menu>
     </>
   )
-};
+}
 
-export default AlertDetailFormActionMenu;
+export default AlertDetailFormActionMenu

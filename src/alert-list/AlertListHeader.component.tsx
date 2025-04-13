@@ -1,20 +1,22 @@
-import { Box, Stack, Switch, Typography } from "@mui/material";
-import { AlertState } from "../alert/alert.type";
-import { useSampleAlerts } from "../alert/use-sample-alerts.hook";
+import { Box, Stack, Switch, Typography } from '@mui/material'
+import { AlertState } from '../alert/alert.type'
+import { useSampleAlerts } from '../alert/use-sample-alerts.hook'
 
 export type AlertListHeaderProps = {
-  showClosed: boolean;
-  onToggleShowClosed: (showClosed: boolean) => void;
+  showClosed: boolean
+  onToggleShowClosed: (showClosed: boolean) => void
 }
 
 const AlertListHeader = ({
   showClosed,
-  onToggleShowClosed,
+  onToggleShowClosed
 }: AlertListHeaderProps) => {
-  const handleToggleShowClosed = () => onToggleShowClosed(!showClosed);
+  const handleToggleShowClosed = () => onToggleShowClosed(!showClosed)
 
-  const { alerts } = useSampleAlerts();
-  const numNewAlerts = alerts.filter((alert) => alert.state === AlertState.New).length;
+  const { alerts } = useSampleAlerts()
+  const numNewAlerts = alerts.filter(
+    (alert) => alert.state === AlertState.New
+  ).length
 
   return (
     <Box display="flex" justifyContent="space-between">

@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
-import TopNav from "./TopNav";
+import { Box } from '@mui/material'
+import TopNav from './TopNav'
 
 export type PageProps = {
-  children: React.ReactNode,
+  children: React.ReactNode
 }
 
 const Page = ({ children }: PageProps) => (
@@ -13,6 +13,6 @@ const Page = ({ children }: PageProps) => (
       {children}
     </Box>
   </>
-);
+)
 
-export default Page;
+export default Page

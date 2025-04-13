@@ -1,19 +1,25 @@
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Button, Stack, TextField, Typography } from "@mui/material";
-import { useCallback, useState } from "react";
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
+import { Button, Stack, TextField, Typography } from '@mui/material'
+import { useCallback, useState } from 'react'
 
 export type AlertListSearchProps = {
-  onSearch: (newQuery: string) => void;
-  defaultQuery?: string;
+  onSearch: (newQuery: string) => void
+  defaultQuery?: string
 }
 
-const AlertListSearch = ({ onSearch, defaultQuery = "" }: AlertListSearchProps) => {
-  const [newQuery, setNewQuery] = useState<string>(defaultQuery);
+const AlertListSearch = ({
+  onSearch,
+  defaultQuery = ''
+}: AlertListSearchProps) => {
+  const [newQuery, setNewQuery] = useState<string>(defaultQuery)
 
-  const handleSearch = useCallback<React.FormEventHandler<HTMLFormElement>>((evt) => {
-    onSearch(newQuery);
-    evt.preventDefault();
-  }, [onSearch, newQuery]);
+  const handleSearch = useCallback<React.FormEventHandler<HTMLFormElement>>(
+    (evt) => {
+      onSearch(newQuery)
+      evt.preventDefault()
+    },
+    [onSearch, newQuery]
+  )
 
   return (
     <form onSubmit={handleSearch}>
@@ -32,14 +38,14 @@ const AlertListSearch = ({ onSearch, defaultQuery = "" }: AlertListSearchProps) 
           type="submit"
           variant="contained"
           size="large"
-          sx={{ height: "50px" }}
+          sx={{ height: '50px' }}
         >
-            <Typography>Search</Typography>
-            <SearchOutlinedIcon sx={{ marginLeft: 1 }} />
+          <Typography>Search</Typography>
+          <SearchOutlinedIcon sx={{ marginLeft: 1 }} />
         </Button>
       </Stack>
     </form>
   )
-};
+}
 
-export default AlertListSearch;
+export default AlertListSearch

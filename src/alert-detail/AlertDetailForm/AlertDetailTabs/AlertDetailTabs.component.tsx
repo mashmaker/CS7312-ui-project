@@ -1,27 +1,30 @@
-import { useState } from "react";
-import { Box, Tab, Tabs } from "@mui/material";
-import { Alert, EDRAlert, SIEMAlert } from "../../../alert/alert.type";
-import AlertDetailRelatedAlertsTab from "./AlertDetailRelatedAlertsTab.component";
-import AlertDetailsTab from "./AlertDetailsTab.component";
+import { useState } from 'react'
+import { Box, Tab, Tabs } from '@mui/material'
+import { Alert, EDRAlert, SIEMAlert } from '../../../alert/alert.type'
+import AlertDetailRelatedAlertsTab from './AlertDetailRelatedAlertsTab.component'
+import AlertDetailsTab from './AlertDetailsTab.component'
 
 const TABS = {
-  DETAILS: "Details",
-  RELATED_ALERTS: "Related Alerts",
-} as const;
+  DETAILS: 'Details',
+  RELATED_ALERTS: 'Related Alerts'
+} as const
 
-type Tab = typeof TABS[keyof typeof TABS];
+type Tab = (typeof TABS)[keyof typeof TABS]
 
 export type AlertDetailTabsProps = {
-  alert: Alert,
-  onFieldChange: <T extends SIEMAlert | EDRAlert>(field: keyof T, value: T[keyof T]) => void;
-};
+  alert: Alert
+  onFieldChange: <T extends SIEMAlert | EDRAlert>(
+    field: keyof T,
+    value: T[keyof T]
+  ) => void
+}
 
 const AlertDetailTabs = ({ alert, onFieldChange }: AlertDetailTabsProps) => {
-  const [tab, setTab] = useState<Tab>(TABS.DETAILS);
+  const [tab, setTab] = useState<Tab>(TABS.DETAILS)
 
   const handleChangeTab = (_evt: React.SyntheticEvent, newTab: Tab) => {
-    setTab(newTab);
-  };
+    setTab(newTab)
+  }
 
   return (
     <>
@@ -43,4 +46,4 @@ const AlertDetailTabs = ({ alert, onFieldChange }: AlertDetailTabsProps) => {
   )
 }
 
-export default AlertDetailTabs;
+export default AlertDetailTabs

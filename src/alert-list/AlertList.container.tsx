@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import { Stack } from "@mui/material";
-import Page from "../layout/Page";
+import { Stack } from '@mui/material'
+import Page from '../layout/Page'
 
-import AlertListHeader from "./AlertListHeader.component";
-import AlertListDataGrid from "./AlertListDataGrid/AlertListDataGrid.component";
+import AlertListHeader from './AlertListHeader.component'
+import AlertListDataGrid from './AlertListDataGrid/AlertListDataGrid.component'
 
 const AlertList = () => {
-  const [showClosed, setShowClosed] = useState<boolean>(false);
+  const [showClosed, setShowClosed] = useState<boolean>(false)
 
   return (
     <Page>
@@ -23,4 +23,4 @@ const AlertList = () => {
   )
 }
 
-export default AlertList;
+export default AlertList

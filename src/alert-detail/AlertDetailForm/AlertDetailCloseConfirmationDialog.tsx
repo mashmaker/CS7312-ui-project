@@ -1,10 +1,18 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
-import { useState } from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField
+} from '@mui/material'
+import { useState } from 'react'
 
 export type AlertDetailCloseConfirmationDialogProps = {
-  open: boolean;
-  onCancel: () => void;
-  onClose: (closeNotes: string) => void;
+  open: boolean
+  onCancel: () => void
+  onClose: (closeNotes: string) => void
 }
 
 const AlertDetailCloseConfirmationDialog = ({
@@ -12,12 +20,12 @@ const AlertDetailCloseConfirmationDialog = ({
   onClose,
   onCancel
 }: AlertDetailCloseConfirmationDialogProps) => {
-  const [closeNotes, setCloseNotes] = useState<string>("");
+  const [closeNotes, setCloseNotes] = useState<string>('')
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    onClose(closeNotes);
-  };
+    evt.preventDefault()
+    onClose(closeNotes)
+  }
 
   return (
     <Dialog
@@ -28,15 +36,13 @@ const AlertDetailCloseConfirmationDialog = ({
       slotProps={{
         paper: {
           component: 'form',
-          onSubmit: handleSubmit,
-        },
+          onSubmit: handleSubmit
+        }
       }}
     >
       <DialogTitle>Close Alert</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Enter close notes
-        </DialogContentText>
+        <DialogContentText>Enter close notes</DialogContentText>
         <TextField
           autoFocus
           required
@@ -55,4 +61,4 @@ const AlertDetailCloseConfirmationDialog = ({
   )
 }
 
-export default AlertDetailCloseConfirmationDialog;
+export default AlertDetailCloseConfirmationDialog

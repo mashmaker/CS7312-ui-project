@@ -1,17 +1,17 @@
-import { Grid, Stack, TextField, Typography } from "@mui/material";
-import { Alert, AlertSeverity, AlertState } from "../../alert/alert.type";
-import AlertDetailFormActionMenu from "./AlertDetailFormActionMenu.component";
-import AlertSeverityMenu from "./AlertSeverityMenu.component";
-import { DateTime } from "luxon";
+import { Grid, Stack, TextField, Typography } from '@mui/material'
+import { Alert, AlertSeverity, AlertState } from '../../alert/alert.type'
+import AlertDetailFormActionMenu from './AlertDetailFormActionMenu.component'
+import AlertSeverityMenu from './AlertSeverityMenu.component'
+import { DateTime } from 'luxon'
 
 export type AlertDetailFormProps = {
   alert: Alert
-  onTriage: () => void;
-  onInvestigate: () => void;
-  onCloseStart: () => void;
-  onReview: () => void;
-  onEscalate: () => void;
-  onChangeSeverity: (newSeverity: AlertSeverity) => void;
+  onTriage: () => void
+  onInvestigate: () => void
+  onCloseStart: () => void
+  onReview: () => void
+  onEscalate: () => void
+  onChangeSeverity: (newSeverity: AlertSeverity) => void
 }
 
 const AlertDetailForm = ({
@@ -21,17 +21,24 @@ const AlertDetailForm = ({
   onCloseStart,
   onReview,
   onEscalate,
-  onChangeSeverity,
+  onChangeSeverity
 }: AlertDetailFormProps) => (
   <>
     <Grid container>
       <Grid size={10}>
-        <Typography variant="h5" fontWeight="bold">{alert.title}</Typography>
-        <Typography variant="subtitle1">Created: {DateTime.fromJSDate(alert.createdOn).toRFC2822()}</Typography>
+        <Typography variant="h5" fontWeight="bold">
+          {alert.title}
+        </Typography>
+        <Typography variant="subtitle1">
+          Created: {DateTime.fromJSDate(alert.createdOn).toRFC2822()}
+        </Typography>
       </Grid>
 
       <Grid size={2} textAlign="right">
-        <AlertSeverityMenu severity={alert.severity} onChangeSeverity={onChangeSeverity} />
+        <AlertSeverityMenu
+          severity={alert.severity}
+          onChangeSeverity={onChangeSeverity}
+        />
       </Grid>
     </Grid>
 
@@ -54,7 +61,7 @@ const AlertDetailForm = ({
           <TextField
             label="Assigned To"
             disabled
-            value={alert.assignedTo || ""}
+            value={alert.assignedTo || ''}
             fullWidth
           />
 
@@ -62,15 +69,16 @@ const AlertDetailForm = ({
             <TextField
               label="Triaged By"
               disabled
-              value={alert.triaged?.user || ""}
+              value={alert.triaged?.user || ''}
               fullWidth
-            />)}
+            />
+          )}
 
           {alert.state > 3 && (
             <TextField
               label="Reviewer"
               disabled
-              value={alert.reviewed?.user || ""}
+              value={alert.reviewed?.user || ''}
               fullWidth
             />
           )}
@@ -83,7 +91,7 @@ const AlertDetailForm = ({
             <TextField
               label="Closed By"
               disabled
-              value={alert.closed?.user || ""}
+              value={alert.closed?.user || ''}
               fullWidth
             />
           </Grid>
@@ -92,7 +100,7 @@ const AlertDetailForm = ({
             <TextField
               multiline
               minRows={3}
-              value={alert.closed?.notes || ""}
+              value={alert.closed?.notes || ''}
               label="Close Notes"
               fullWidth
               disabled
@@ -104,4 +112,4 @@ const AlertDetailForm = ({
   </>
 )
 
-export default AlertDetailForm;
+export default AlertDetailForm

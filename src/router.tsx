@@ -1,17 +1,17 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from 'react-router-dom'
 
-import AlertList from "./alert-list/AlertList.container";
-import AlertDetail from "./alert-detail/AlertDetail.container";
+import AlertList from './alert-list/AlertList.container'
+import AlertDetail from './alert-detail/AlertDetail.container'
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    Component: AlertList,
+    path: '/',
+    Component: AlertList
   },
   {
-    path: "/:id",
-    Component: AlertDetail,
-  },
-]);
+    path: '/:id',
+    Component: AlertDetail
+  }
+])
 
-export default router;
+export default router

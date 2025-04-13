@@ -1,55 +1,61 @@
-import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Button, Stack } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { DateTime } from 'luxon';
+import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { Button, Stack } from '@mui/material'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { DateTime } from 'luxon'
 
-import { type Alert, ALERT_SEVERITY_LABEL_TO_VALUE, ALERT_STATE_LABEL_TO_VALUE, ALERT_STATE_LABELS, AlertState } from "../../alert/alert.type";
-import Severity from '../../shared/Severity.component';
-import AlertListSearch from './AlertListSearch.component';
-import { useSampleAlerts } from '../../alert/use-sample-alerts.hook';
+import {
+  type Alert,
+  ALERT_SEVERITY_LABEL_TO_VALUE,
+  ALERT_STATE_LABEL_TO_VALUE,
+  ALERT_STATE_LABELS,
+  AlertState
+} from '../../alert/alert.type'
+import Severity from '../../shared/Severity.component'
+import AlertListSearch from './AlertListSearch.component'
+import { useSampleAlerts } from '../../alert/use-sample-alerts.hook'
 
-const calculateAge = (createdOn: Alert["createdOn"]): string => {
+const calculateAge = (createdOn: Alert['createdOn']): string => {
   const diff = DateTime.now().diff(DateTime.fromJSDate(createdOn), [
     'years',
     'months',
     'days',
     'hours',
     'minutes',
-    'seconds',
-  ]);
+    'seconds'
+  ])
 
-  const years = Math.floor(diff.years);
+  const years = Math.floor(diff.years)
   if (years > 0) {
-    return years === 1 ? '1 year' : `${years} years`;
+    return years === 1 ? '1 year' : `${years} years`
   }
 
-  const months = Math.floor(diff.months);
+  const months = Math.floor(diff.months)
   if (months > 0) {
-    return months === 1 ? '1 month' : `${months} months`;
+    return months === 1 ? '1 month' : `${months} months`
   }
 
-  const days = Math.floor(diff.days);
+  const days = Math.floor(diff.days)
   if (days > 0) {
-    return days === 1 ? '1 day' : `${days} days`;
+    return days === 1 ? '1 day' : `${days} days`
   }
 
-  const hours = Math.floor(diff.hours);
+  const hours = Math.floor(diff.hours)
   if (hours > 0) {
-    return hours === 1 ? '1 hour' : `${hours} hours`;
+    return hours === 1 ? '1 hour' : `${hours} hours`
   }
 
-  const minutes = Math.floor(diff.minutes);
+  const minutes = Math.floor(diff.minutes)
   if (minutes > 0) {
-    return minutes === 1 ? '1 minute' : `${minutes} minutes`;
+    return minutes === 1 ? '1 minute' : `${minutes} minutes`
   }
 
-  const seconds = Math.floor(diff.seconds);
+  const seconds = Math.floor(diff.seconds)
   if (seconds > 0) {
-    return seconds === 1 ? '1 second' : `${seconds} seconds`;
+    return seconds === 1 ? '1 second' : `${seconds} seconds`
   }
 
-  return 'now';
+  return 'now'
 }
 
 const columns: GridColDef<Alert>[] = [
@@ -57,98 +63,117 @@ const columns: GridColDef<Alert>[] = [
     field: 'createdOn',
     headerName: 'Age',
     width: 150,
-    headerAlign: "center",
-    align: "center",
-    valueGetter: (_value, row) => calculateAge(row.createdOn),
+    headerAlign: 'center',
+    align: 'center',
+    valueGetter: (_value, row) => calculateAge(row.createdOn)
   },
   {
     field: 'severity',
     headerName: 'Severity',
     width: 150,
-    headerAlign: "center",
-    renderCell: ({ row }) => <Severity severity={row.severity} />,
+    headerAlign: 'center',
+    renderCell: ({ row }) => <Severity severity={row.severity} />
   },
   {
     field: 'title',
     headerName: 'Title',
-    width: 450,
+    width: 450
   },
   {
     field: 'state',
     headerName: 'State',
     width: 150,
-    headerAlign: "center",
-    align: "center",
-    valueGetter: (state) => ALERT_STATE_LABELS[state],
+    headerAlign: 'center',
+    align: 'center',
+    valueGetter: (state) => ALERT_STATE_LABELS[state]
   },
   {
     field: 'actions',
     headerName: '',
     width: 100,
     renderCell: ({ row }) => {
-      const linkText = row.state === AlertState.New
-        ? "Triage"
-        : row.state === AlertState.Review
-          ? "Review"
-          : "View";
+      const linkText =
+        row.state === AlertState.New
+          ? 'Triage'
+          : row.state === AlertState.Review
+            ? 'Review'
+            : 'View'
 
-      return <Button fullWidth component={NavLink} to={`/${row.id}`} variant="outlined">{linkText}</Button>
+      return (
+        <Button
+          fullWidth
+          component={NavLink}
+          to={`/${row.id}`}
+          variant="outlined"
+        >
+          {linkText}
+        </Button>
+      )
     }
-  },
-];
+  }
+]
 
 export type AlertListDataGridProps = {
-  showClosed: boolean;
-  excludeId?: number;
-  defaultQuery?: string;
+  showClosed: boolean
+  excludeId?: number
+  defaultQuery?: string
 }
 
-const AlertListDataGrid = ({ showClosed, excludeId, defaultQuery = "" }: AlertListDataGridProps) => {
-  const [query, setQuery] = useState<string>(defaultQuery);
+const AlertListDataGrid = ({
+  showClosed,
+  excludeId,
+  defaultQuery = ''
+}: AlertListDataGridProps) => {
+  const [query, setQuery] = useState<string>(defaultQuery)
 
-  const { alerts } = useSampleAlerts();
-  const [visibleAlerts, setVisibleAlerts] = useState<Alert[]>(alerts);
+  const { alerts } = useSampleAlerts()
+  const [visibleAlerts, setVisibleAlerts] = useState<Alert[]>(alerts)
 
   useEffect(() => {
-    const queryParts = query.split(",");
+    const queryParts = query.split(',')
 
-    setVisibleAlerts(alerts.filter((alert) => {
-      if (alert.id === excludeId) {
-        return false;
-      }
+    setVisibleAlerts(
+      alerts.filter((alert) => {
+        if (alert.id === excludeId) {
+          return false
+        }
 
-      // filter out closed alerts
-      if (!showClosed && alert.state === AlertState.Closed) {
-        return false;
-      }
+        // filter out closed alerts
+        if (!showClosed && alert.state === AlertState.Closed) {
+          return false
+        }
 
-      // filter by command language
-      if (queryParts.length > 0) {
-        return queryParts.every((queryTerm) => {
-          const [key, value] = queryTerm.split("=");
+        // filter by command language
+        if (queryParts.length > 0) {
+          return queryParts.every((queryTerm) => {
+            const [key, value] = queryTerm.split('=')
 
-          const normalizedKey = key?.toLocaleLowerCase() || "";
-          const normalizedValue = value?.toLocaleLowerCase() || "";
+            const normalizedKey = key?.toLocaleLowerCase() || ''
+            const normalizedValue = value?.toLocaleLowerCase() || ''
 
-          if (normalizedKey === "state") {
-            return alert.state === ALERT_STATE_LABEL_TO_VALUE[normalizedValue];
-          }
+            if (normalizedKey === 'state') {
+              return alert.state === ALERT_STATE_LABEL_TO_VALUE[normalizedValue]
+            }
 
-          if (normalizedKey === "severity") {
-            return alert.severity === ALERT_SEVERITY_LABEL_TO_VALUE[normalizedValue];
-          }
+            if (normalizedKey === 'severity') {
+              return (
+                alert.severity ===
+                ALERT_SEVERITY_LABEL_TO_VALUE[normalizedValue]
+              )
+            }
 
-          if (normalizedKey === "age") {
-            return calculateAge(alert.createdOn) === value;
-          }
+            if (normalizedKey === 'age') {
+              return calculateAge(alert.createdOn) === value
+            }
 
-          return alert[normalizedKey as keyof Alert] === value;
-        });
-      }
+            return alert[normalizedKey as keyof Alert] === value
+          })
+        }
 
-      return true;
-    }));
-  }, [alerts, showClosed, query, excludeId]);
+        return true
+      })
+    )
+  }, [alerts, showClosed, query, excludeId])
 
   return (
     <Stack direction="column" spacing={2}>
@@ -160,9 +185,9 @@ const AlertListDataGrid = ({ showClosed, excludeId, defaultQuery = "" }: AlertLi
         getRowClassName={({ row }) => ALERT_STATE_LABELS[row.state]}
         sx={{
           [`.${AlertState.Closed}`]: {
-            bgcolor: "grey",
-            "&:hover": {
-              bgcolor: "darkgrey"
+            bgcolor: 'grey',
+            '&:hover': {
+              bgcolor: 'darkgrey'
             }
           }
         }}
@@ -170,7 +195,7 @@ const AlertListDataGrid = ({ showClosed, excludeId, defaultQuery = "" }: AlertLi
         pageSizeOptions={[5, 10, 15, 20]}
       />
     </Stack>
-  );
+  )
 }
 
-export default AlertListDataGrid;
+export default AlertListDataGrid

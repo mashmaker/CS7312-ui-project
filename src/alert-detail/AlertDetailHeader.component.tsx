@@ -1,6 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
-import { NavLink } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Button, Typography } from '@mui/material'
+import { NavLink } from 'react-router-dom'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const AlertDetailHeader = () => {
   return (

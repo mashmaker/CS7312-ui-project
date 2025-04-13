@@ -1,12 +1,14 @@
-import { Box } from "@mui/material";
-import AlertListDataGrid from "../../../alert-list/AlertListDataGrid/AlertListDataGrid.component";
-import { Alert } from "../../../alert/alert.type";
+import { Box } from '@mui/material'
+import AlertListDataGrid from '../../../alert-list/AlertListDataGrid/AlertListDataGrid.component'
+import { Alert } from '../../../alert/alert.type'
 
 export type AlertDetailRelatedAlertsTabProps = {
   alert: Alert
 }
 
-const AlertDetailRelatedAlertsTab = ({ alert }: AlertDetailRelatedAlertsTabProps) => (
+const AlertDetailRelatedAlertsTab = ({
+  alert
+}: AlertDetailRelatedAlertsTabProps) => (
   <Box marginTop={2}>
     <AlertListDataGrid
       showClosed
@@ -14,6 +16,6 @@ const AlertDetailRelatedAlertsTab = ({ alert }: AlertDetailRelatedAlertsTabProps
       defaultQuery={`title=${alert.title}`}
     />
   </Box>
-);
+)
 
-export default AlertDetailRelatedAlertsTab;
+export default AlertDetailRelatedAlertsTab
