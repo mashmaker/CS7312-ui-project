@@ -79,6 +79,13 @@ const AlertDetailFormQuickAction = ({
           </MenuItem>
         )}
 
+        {state === AlertState.Review && (
+          <MenuItem onClick={handleEscalateClick} disableRipple>
+            <Typography>Escalate</Typography>
+            <NavigateNextIcon fontSize="small" />
+          </MenuItem>
+        )}
+
         <MenuItem onClick={handleCloseAlertClick} disableRipple>
           <Typography>Close</Typography>
           <CloseIcon />

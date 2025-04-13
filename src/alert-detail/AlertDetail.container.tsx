@@ -9,6 +9,7 @@ import { getSampleAlertById } from "../alert/sample-data";
 import AlertDetailBreadcrumbs from "./AlertDetailBreadcrumbs.component";
 import AlertDetailForm from "./AlertDetailForm/AlertDetailForm.component";
 import { Alert, AlertState } from "../alert/alert.type";
+import AlertDetailTabs from "./AlertDetailForm/AlertDetailTabs.component";
 
 const TEST_USER = "Test User";
 
@@ -120,6 +121,8 @@ const AlertDetail = () => {
           </>
         }
       />
+
+      <AlertDetailTabs />
     </Page>
   )
 }
