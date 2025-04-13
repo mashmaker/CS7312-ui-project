@@ -1,11 +1,12 @@
-import { Grid, TextField, Typography } from "@mui/material";
-import { Alert, AlertSeverity } from "../../alert/alert.type";
-import AlertDetailFormQuickAction from "./AlertDetailFormQuickAction.component";
+import { Grid, Stack, TextField, Typography } from "@mui/material";
+import { Alert, AlertSeverity, AlertState } from "../../alert/alert.type";
+import AlertDetailFormActionMenu from "./AlertDetailFormActionMenu.component";
 import AlertSeverityMenu from "./AlertSeverityMenu.component";
 import { DateTime } from "luxon";
 
 export type AlertDetailFormProps = {
   alert: Alert
+  onTriage: () => void;
   onInvestigate: () => void;
   onCloseStart: () => void;
   onReview: () => void;
@@ -15,6 +16,7 @@ export type AlertDetailFormProps = {
 
 const AlertDetailForm = ({
   alert,
+  onTriage,
   onInvestigate,
   onCloseStart,
   onReview,
@@ -35,8 +37,9 @@ const AlertDetailForm = ({
 
     <Grid container spacing={2}>
       <Grid size={4} marginTop={1}>
-        <AlertDetailFormQuickAction
+        <AlertDetailFormActionMenu
           state={alert.state}
+          onTriage={onTriage}
           onInvestigate={onInvestigate}
           onCloseStart={onCloseStart}
           onReview={onReview}
@@ -44,32 +47,59 @@ const AlertDetailForm = ({
         />
       </Grid>
 
-      <Grid size={4}>
-        <TextField
-          label="Assigned To"
-          disabled
-          value={alert.assignedTo || ""}
-          fullWidth />
-      </Grid>
+      <Grid size={4}></Grid>
 
       <Grid size={4}>
-        <TextField
-          label="Triaged By"
-          disabled
-          value={alert.triagedBy || ""}
-          fullWidth />
+        <Stack direction="column" spacing={2}>
+          <TextField
+            label="Assigned To"
+            disabled
+            value={alert.assignedTo || ""}
+            fullWidth
+          />
+
+          {alert.state > 1 && (
+            <TextField
+              label="Triaged By"
+              disabled
+              value={alert.triaged?.user || ""}
+              fullWidth
+            />)}
+
+          {alert.state > 3 && (
+            <TextField
+              label="Reviewer"
+              disabled
+              value={alert.reviewed?.user || ""}
+              fullWidth
+            />
+          )}
+        </Stack>
       </Grid>
 
-      <Grid size={8}></Grid>
+      {alert.state === AlertState.Closed && (
+        <Grid container size={12} spacing={2}>
+          <Grid size={4}>
+            <TextField
+              label="Closed By"
+              disabled
+              value={alert.closed?.user || ""}
+              fullWidth
+            />
+          </Grid>
 
-      <Grid size={4}>
-        <TextField
-          label="Reviewed By"
-          disabled
-          value={alert.reviewedBy || ""}
-          fullWidth
-        />
-      </Grid>
+          <Grid size={12}>
+            <TextField
+              multiline
+              minRows={3}
+              value={alert.closed?.notes || ""}
+              label="Close Notes"
+              fullWidth
+              disabled
+            />
+          </Grid>
+        </Grid>
+      )}
     </Grid>
   </>
 )

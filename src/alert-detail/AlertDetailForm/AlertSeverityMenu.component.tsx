@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Button, Divider, Menu, MenuItem, Typography } from "@mui/material";
 import { ALERT_SEVERITY_LABELS, AlertSeverity } from "../../alert/alert.type";
 import Severity from "../../shared/Severity.component";
 import { useState } from "react";
@@ -35,6 +35,14 @@ const AlertSeverityMenu = ({
         anchorEl={anchorEl}
         onClose={handleMenuClose}
         elevation={0}
+        slotProps={{
+          paper: {
+            sx: {
+              width: '150px',
+              marginTop: 1
+            },
+          }
+        }}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
@@ -44,13 +52,17 @@ const AlertSeverityMenu = ({
           horizontal: 'left',
         }}
       >
-        {Object.keys(ALERT_SEVERITY_LABELS).map((severityStr) => {
+        {Object.keys(ALERT_SEVERITY_LABELS).map((severityStr, index, arr) => {
           const severity = Number(severityStr) as AlertSeverity; // typescript can't map this type correctly
 
           return (
-            <MenuItem key={severityStr} onClick={() => handleMenuItemClick(severity)} disableRipple>
-              <Typography>{ALERT_SEVERITY_LABELS[severity]}</Typography>
-            </MenuItem>
+            <>
+              <MenuItem key={severityStr} onClick={() => handleMenuItemClick(severity)} disableRipple>
+                <Typography>{ALERT_SEVERITY_LABELS[severity]}</Typography>
+              </MenuItem>
+
+              { index < arr.length - 1 && <Divider />}
+            </>
           );
         })}
       </Menu>

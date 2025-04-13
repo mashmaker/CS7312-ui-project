@@ -12,6 +12,13 @@ export const ALERT_SEVERITY_LABELS: Record<AlertSeverity, string> = {
   [AlertSeverity.Low]: "Low",
 };
 
+export const ALERT_SEVERITY_LABEL_TO_VALUE: Record<string, AlertSeverity> = {
+  critical: AlertSeverity.Critical,
+  high: AlertSeverity.High,
+  medium: AlertSeverity.Medium,
+  low: AlertSeverity.Low,
+};
+
 export enum AlertState {
   New,
   Triage,
@@ -29,6 +36,15 @@ export const ALERT_STATE_LABELS: Record<AlertState, string> = {
   [AlertState.Escalated]: "Escalated",
   [AlertState.Closed]: "Closed",
 }
+
+export const ALERT_STATE_LABEL_TO_VALUE: Record<string, AlertState> = {
+  new: AlertState.New,
+  triage: AlertState.Triage,
+  investigating: AlertState.Investigating,
+  review: AlertState.Review,
+  escalated: AlertState.Escalated,
+  closed: AlertState.Closed,
+};
 
 export enum AlertCategory {
   SIEM,
@@ -48,11 +64,12 @@ type BaseAlert = {
   state: AlertState,
   createdOn: Date,
   assignedTo?: string,
-  triagedBy?: string,
-  reviewedBy?: string,
-  closedBy?: string,
-  closeNotes?: string;
-  workNotes?: string;
+  triaged?: { user: string, date: Date },
+  investigated?: { user: string, date: Date },
+  reviewed?: { user: string, date: Date },
+  escalated?: { user: string, date: Date },
+  closed?: { user: string, date: Date, notes: string },
+  notes?: string;
 }
 
 export type SIEMAlert = BaseAlert & {

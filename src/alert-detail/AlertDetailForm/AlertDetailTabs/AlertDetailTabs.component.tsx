@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Tab, Tabs } from "@mui/material";
-import { Alert, AlertState, EDRAlert, SIEMAlert } from "../../../alert/alert.type";
-import AlertDetailCloseNotesTab from "./AlertDetailCloseNotesTab.component";
+import { Alert, EDRAlert, SIEMAlert } from "../../../alert/alert.type";
 import AlertDetailRelatedAlertsTab from "./AlertDetailRelatedAlertsTab.component";
 import AlertDetailsTab from "./AlertDetailsTab.component";
 
 const TABS = {
   DETAILS: "Details",
   RELATED_ALERTS: "Related Alerts",
-  CLOSE_NOTES: "Close Notes"
 } as const;
 
 type Tab = typeof TABS[keyof typeof TABS];
@@ -25,19 +23,12 @@ const AlertDetailTabs = ({ alert, onFieldChange }: AlertDetailTabsProps) => {
     setTab(newTab);
   };
 
-  useEffect(() => {
-    if (alert.state === AlertState.Closed) {
-      setTab(TABS.CLOSE_NOTES);
-    }
-  }, [alert.state]);
-
   return (
     <>
       <Box sx={{ borderBottom: 1, borderColor: 'divider', marginY: 4 }}>
         <Tabs value={tab} onChange={handleChangeTab}>
           <Tab label="Details" value={TABS.DETAILS} />
           <Tab label="Related Alerts" value={TABS.RELATED_ALERTS} />
-          <Tab label="Close Notes" value={TABS.CLOSE_NOTES} />
         </Tabs>
       </Box>
 
@@ -47,10 +38,6 @@ const AlertDetailTabs = ({ alert, onFieldChange }: AlertDetailTabsProps) => {
 
       {tab === TABS.RELATED_ALERTS && (
         <AlertDetailRelatedAlertsTab alert={alert} />
-      )}
-
-      {tab === TABS.CLOSE_NOTES && (
-        <AlertDetailCloseNotesTab alert={alert} />
       )}
     </>
   )

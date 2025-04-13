@@ -4,7 +4,7 @@ import { Button, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { DateTime } from 'luxon';
 
-import { type Alert, ALERT_STATE_LABELS, AlertState } from "../../alert/alert.type";
+import { type Alert, ALERT_SEVERITY_LABEL_TO_VALUE, ALERT_SEVERITY_LABELS, ALERT_STATE_LABEL_TO_VALUE, ALERT_STATE_LABELS, AlertSeverity, AlertState } from "../../alert/alert.type";
 import Severity from '../../shared/Severity.component';
 import AlertListSearch from './AlertListSearch.component';
 import { useSampleAlerts } from '../../alert/use-sample-alerts.hook';
@@ -110,7 +110,7 @@ const AlertListDataGrid = ({ showClosed, excludeId, defaultQuery = "" }: AlertLi
   useEffect(() => {
     const queryParts = query.split(",");
 
-    setVisibleAlerts((oldVisibleAlerts) => oldVisibleAlerts.filter((alert) => {
+    setVisibleAlerts(alerts.filter((alert) => {
       if (alert.id === excludeId) {
         return false;
       }
@@ -124,13 +124,25 @@ const AlertListDataGrid = ({ showClosed, excludeId, defaultQuery = "" }: AlertLi
       if (queryParts.length > 0) {
         return queryParts.every((queryTerm) => {
           const [key, value] = queryTerm.split("=");
+
+          const normalizedKey = key?.toLocaleLowerCase() || "";
+          const normalizedValue = value?.toLocaleLowerCase() || "";
+
+          if (normalizedKey === "state") {
+            return alert.state === ALERT_STATE_LABEL_TO_VALUE[normalizedValue];
+          }
+
+          if (normalizedKey === "severity") {
+            return alert.severity === ALERT_SEVERITY_LABEL_TO_VALUE[normalizedValue];
+          }
+
           return alert[key.toLowerCase() as keyof Alert] === value;
         });
       }
 
       return true;
     }));
-  }, [showClosed, query, excludeId]);
+  }, [alerts, showClosed, query, excludeId]);
 
   return (
     <Stack direction="column" spacing={2}>

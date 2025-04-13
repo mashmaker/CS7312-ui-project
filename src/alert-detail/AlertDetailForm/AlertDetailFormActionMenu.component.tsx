@@ -1,29 +1,37 @@
 import { useState } from "react";
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Button, Divider, Menu, MenuItem, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 import { AlertState } from "../../alert/alert.type";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-type AlertDetailFormQuickActionProps = {
+type AlertDetailFormActionMenuProps = {
   state: AlertState;
+  onTriage: () => void;
   onInvestigate: () => void;
   onReview: () => void;
   onEscalate: () => void;
   onCloseStart: () => void;
 };
 
-const AlertDetailFormQuickAction = ({
+const AlertDetailFormActionMenu = ({
   state,
+  onTriage,
   onInvestigate,
   onReview,
   onEscalate,
   onCloseStart,
-}: AlertDetailFormQuickActionProps) => {
+}: AlertDetailFormActionMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)
   const handleMenuClose = () => setAnchorEl(null);
+
+  const handleTriageClick = () => {
+    onTriage();
+    handleMenuClose();
+  };
 
   const handleInvestigateAlertClick = () => {
     onInvestigate();
@@ -51,8 +59,9 @@ const AlertDetailFormQuickAction = ({
 
   return (
     <>
-      <Button onClick={handleMenuClick} variant="contained" size="large">
+      <Button onClick={handleMenuClick} variant="contained" size="large" fullWidth>
         <Typography>Actions</Typography>
+        <ArrowDropDownIcon />
       </Button>
 
       <Menu
@@ -60,6 +69,14 @@ const AlertDetailFormQuickAction = ({
         anchorEl={anchorEl}
         onClose={handleMenuClose}
         elevation={0}
+        slotProps={{
+          paper: {
+            sx: {
+              width: '325px',
+              marginTop: 1
+            },
+          }
+        }}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
@@ -69,25 +86,48 @@ const AlertDetailFormQuickAction = ({
           horizontal: 'left',
         }}
       >
+        {state === AlertState.New && (
+          <>
+            <MenuItem onClick={handleTriageClick} disableRipple>
+              <Typography>Start Triage</Typography>
+              <NavigateNextIcon fontSize="small" />
+            </MenuItem>
+
+            <Divider />
+          </>
+        )}
+
         {state === AlertState.Triage && (
-          <MenuItem onClick={handleInvestigateAlertClick} disableRipple>
-            <Typography>Start Investigation</Typography>
-            <NavigateNextIcon fontSize="small" />
-          </MenuItem>
+          <>
+            <MenuItem onClick={handleInvestigateAlertClick} disableRipple>
+              <Typography>Start Investigation</Typography>
+              <NavigateNextIcon fontSize="small" />
+            </MenuItem>
+
+            <Divider />
+          </>
         )}
 
         {state === AlertState.Investigating && (
-          <MenuItem onClick={handleReviewClick} disableRipple>
-            <Typography>Request Review</Typography>
-            <NavigateNextIcon fontSize="small" />
-          </MenuItem>
+          <>
+            <MenuItem onClick={handleReviewClick} disableRipple>
+              <Typography>Request Review</Typography>
+              <NavigateNextIcon fontSize="small" />
+            </MenuItem>
+
+            <Divider />
+          </>
         )}
 
         {state === AlertState.Review && (
-          <MenuItem onClick={handleEscalateClick} disableRipple>
-            <Typography>Escalate</Typography>
-            <NavigateNextIcon fontSize="small" />
-          </MenuItem>
+          <>
+            <MenuItem onClick={handleEscalateClick} disableRipple>
+              <Typography>Escalate</Typography>
+              <NavigateNextIcon fontSize="small" />
+            </MenuItem>
+
+            <Divider />
+          </>
         )}
 
         <MenuItem onClick={handleCloseAlertClick} disableRipple>
@@ -99,4 +139,4 @@ const AlertDetailFormQuickAction = ({
   )
 };
 
-export default AlertDetailFormQuickAction;
+export default AlertDetailFormActionMenu;

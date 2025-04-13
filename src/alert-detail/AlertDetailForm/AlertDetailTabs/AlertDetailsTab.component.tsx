@@ -154,11 +154,11 @@ const AlertDetailsTab = ({ alert, onFieldChange }: AlertDetailsTabProps) => {
         <Grid size={12}>
           <TextField
             label="Work Notes"
-            defaultValue={alert.workNotes || ""}
+            defaultValue={alert.notes || ""}
             fullWidth
             multiline
             minRows={3}
-            onBlur={(evt) => handleBlur("workNotes", evt.target.value)}
+            onBlur={(evt) => handleBlur("notes", evt.target.value)}
           />
         </Grid>
       </Grid>

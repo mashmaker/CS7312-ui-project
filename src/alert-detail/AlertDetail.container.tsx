@@ -12,7 +12,7 @@ import AlertDetailTabs from "./AlertDetailForm/AlertDetailTabs/AlertDetailTabs.c
 import AlertDetailCloseConfirmationDialog from "./AlertDetailForm/AlertDetailCloseConfirmationDialog";
 import { useSampleAlerts } from "../alert/use-sample-alerts.hook";
 
-const TEST_USER = "Test User";
+const CURRENT_USER = "Test User";
 
 const AlertDetail = () => {
   const { id: idStr } = useParams();
@@ -26,43 +26,32 @@ const AlertDetail = () => {
 
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false);
 
-  const onTriageAlert = useCallback(() => {
+  const onTriage = useCallback(() => {
     updateSampleAlert(id, {
       state: AlertState.Triage,
-      triagedBy: TEST_USER,
+      assignedTo: CURRENT_USER,
     });
 
-    setNotification("You are triaging the alert");
+    setNotification("Alert updated to 'Triage'");
   }, [id, updateSampleAlert]);
 
   const onInvestigate = useCallback(() => {
     updateSampleAlert(id, {
       state: AlertState.Investigating,
-      assignedTo: TEST_USER,
+      assignedTo: CURRENT_USER,
+      triaged: { user: CURRENT_USER, date: new Date() },
     });
 
-    setNotification("You are investigating the alert");
-  }, [id, updateSampleAlert]);
-
-  const onCloseStart = () => setShowCloseDialog(true)
-  const onCloseCancel = () => setShowCloseDialog(false)
-  const onClose = useCallback((closeNotes: string) => {
-    updateSampleAlert(id, {
-      state: AlertState.Closed,
-      closeNotes,
-      closedBy: TEST_USER,
-    });
-
-    setNotification("You have closed the alert");
-    setShowCloseDialog(false);
+    setNotification("Alert updated to 'Investigating'");
   }, [id, updateSampleAlert]);
 
   const onReview = useCallback(() => {
     updateSampleAlert(id, {
       state: AlertState.Review,
+      investigated: { user: CURRENT_USER, date: new Date() },
     });
 
-    setNotification("You have requested a review");
+    setNotification("Alert updated to 'Review'");
   }, [id, updateSampleAlert]);
 
   const onChangeSeverity = useCallback((newSeverity: AlertSeverity) => {
@@ -76,10 +65,22 @@ const AlertDetail = () => {
   const onEscalate = useCallback(() => {
     updateSampleAlert(id, {
       state: AlertState.Escalated,
-      reviewedBy: TEST_USER,
+      reviewed: { user: CURRENT_USER, date: new Date() },
     });
 
-    setNotification("You have escalated the alert");
+    setNotification("Alert updated to 'Escalate'");
+  }, [id, updateSampleAlert]);
+
+  const onCloseStart = () => setShowCloseDialog(true)
+  const onCloseCancel = () => setShowCloseDialog(false)
+  const onClose = useCallback((closeNotes: string) => {
+    updateSampleAlert(id, {
+      state: AlertState.Closed,
+      closed: { user: CURRENT_USER, date: new Date(), notes: closeNotes },
+    });
+
+    setNotification("Alert updated to 'Closed'");
+    setShowCloseDialog(false);
   }, [id, updateSampleAlert]);
 
   const onFieldChange = useCallback(<T extends SIEMAlert | EDRAlert>(field: keyof T, value: T[keyof T]) => {
@@ -89,13 +90,6 @@ const AlertDetail = () => {
 
     setNotification("Saved change");
   }, [id, updateSampleAlert]);
-
-  useEffect(() => {
-    // automatically transition to triage when viewing new alert
-    if (alert?.state === AlertState.New) {
-      onTriageAlert();
-    }
-  }, [alert?.state, onTriageAlert]);
 
   if (!alert) {
     return <>No alert found with id</>
@@ -110,6 +104,7 @@ const AlertDetail = () => {
 
         <AlertDetailForm
           alert={alert}
+          onTriage={onTriage}
           onInvestigate={onInvestigate}
           onCloseStart={onCloseStart}
           onReview={onReview}
