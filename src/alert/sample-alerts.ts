@@ -50,7 +50,7 @@ const SAMPLE_ALERTS: Array<SIEMAlert | EDRAlert> = [
   },
   {
     id: 1004,
-    title: "Data Exfiltration Attempt",
+    title: "Suspicious PowerShell Command Execution",
     severity: AlertSeverity.Critical,
     state: AlertState.Escalated,
     createdOn: NOW.minus({ days: 3 }).toJSDate(),
