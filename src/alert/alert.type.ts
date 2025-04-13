@@ -38,7 +38,8 @@ export type Alert = {
   age: string,
   createdDate: string,
   assignedTo?: string,
-  closedBy?: string,
   triagedBy?: string,
   reviewedBy?: string,
+  closedBy?: string,
+  closeNote?: string;
 }

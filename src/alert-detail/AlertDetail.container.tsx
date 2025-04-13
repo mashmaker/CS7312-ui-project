@@ -10,6 +10,7 @@ import AlertDetailBreadcrumbs from "./AlertDetailBreadcrumbs.component";
 import AlertDetailForm from "./AlertDetailForm/AlertDetailForm.component";
 import { Alert, AlertSeverity, AlertState } from "../alert/alert.type";
 import AlertDetailTabs from "./AlertDetailForm/AlertDetailTabs.component";
+import AlertDetailCloseConfirmationDialog from "./AlertDetailForm/AlertDetailCloseConfirmationDialog";
 
 const TEST_USER = "Test User";
 
@@ -19,6 +20,8 @@ const AlertDetail = () => {
 
   const [notification, setNotification] = useState<string | null>(null);
   const handleCloseNotification = () => setNotification(null);
+
+  const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false);
 
   const onTriageAlert = useCallback(() => {
     setAlert((currAlert) => ({
@@ -40,14 +43,18 @@ const AlertDetail = () => {
     setNotification("You are investigating the alert");
   }, []);
 
-  const onClose = useCallback(() => {
+  const onCloseStart = () => setShowCloseDialog(true)
+  const onCloseCancel = () => setShowCloseDialog(false)
+  const onClose = useCallback((closeNotes: string) => {
     setAlert((currAlert) => ({
       ...currAlert,
       state: AlertState.Closed,
+      closeNotes,
       closedBy: TEST_USER,
     }));
 
     setNotification("You have closed the alert");
+    setShowCloseDialog(false);
   }, []);
 
   const onReview = useCallback(() => {
@@ -89,11 +96,13 @@ const AlertDetail = () => {
     <Page>
       <Stack direction="column" spacing={4}>
         <AlertDetailHeader />
+
         <AlertDetailBreadcrumbs alertState={alert.state} />
+
         <AlertDetailForm
           alert={alert}
           onInvestigate={onInvestigate}
-          onClose={onClose}
+          onCloseStart={onCloseStart}
           onReview={onReview}
           onEscalate={onEscalate}
           onChangeSeverity={onChangeSeverity}
@@ -133,6 +142,12 @@ const AlertDetail = () => {
       />
 
       <AlertDetailTabs alert={alert} />
+
+      <AlertDetailCloseConfirmationDialog
+        open={showCloseDialog}
+        onClose={onClose}
+        onCancel={onCloseCancel}
+      />
     </Page>
   )
 }

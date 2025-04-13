@@ -6,7 +6,7 @@ import AlertSeverityMenu from "./AlertSeverityMenu.component";
 export type AlertDetailFormProps = {
   alert: Alert
   onInvestigate: () => void;
-  onClose: () => void;
+  onCloseStart: () => void;
   onReview: () => void;
   onEscalate: () => void;
   onChangeSeverity: (newSeverity: AlertSeverity) => void;
@@ -15,7 +15,7 @@ export type AlertDetailFormProps = {
 const AlertDetailForm = ({
   alert,
   onInvestigate,
-  onClose,
+  onCloseStart,
   onReview,
   onEscalate,
   onChangeSeverity,
@@ -37,7 +37,7 @@ const AlertDetailForm = ({
         <AlertDetailFormQuickAction
           state={alert.state}
           onInvestigate={onInvestigate}
-          onClose={onClose}
+          onCloseStart={onCloseStart}
           onReview={onReview}
           onEscalate={onEscalate}
         />
