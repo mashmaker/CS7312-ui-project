@@ -19,5 +19,6 @@ export type Alert = {
   title: string,
   severity: AlertSeverity,
   state: AlertState,
-  age: string
+  age: string,
+  createdDate: string
 }

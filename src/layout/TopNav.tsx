@@ -17,9 +17,20 @@ const TopNav = () => {
               marginLeft={2}>NextGen Security Incident Response</Typography>
           </Box>
 
-          <Stack component="nav" direction="row" spacing={2} marginRight={2}>
-            <Button component={NavLink} to="/" variant="outlined">View List</Button>
-            <Button variant="outlined" onClick={handleSettingsClick}>Settings</Button>
+          <Stack component="nav" direction="row" spacing={2} marginRight={2} alignItems="center">
+            <NavLink
+              to="/"
+            >
+              {({ isActive }) => (
+                <Button variant={isActive ? "contained" : "outlined"}>
+                  <Typography>View List</Typography>
+                </Button>
+              )}
+            </NavLink>
+
+            <Button variant="outlined" onClick={handleSettingsClick}>
+              <Typography>Settings</Typography>
+            </Button>
           </Stack>
         </Box>
       </Paper>

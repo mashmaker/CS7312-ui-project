@@ -35,6 +35,18 @@ h1 {
   line-height: 1.1;
 }
 
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;

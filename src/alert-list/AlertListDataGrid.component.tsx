@@ -1,15 +1,9 @@
-import { useEffect, useState } from 'react';
-
 import { NavLink } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-import { type Alert, AlertState, AlertSeverity } from "../alert/alert.type";
-import CriticalSeverity from '../shared/severity/CriticalSeverity';
-import HighSeverity from '../shared/severity/HighSeverity';
-import MediumSeverity from '../shared/severity/MediumSeverity';
-import LowSeverity from '../shared/severity/LowSeverity';
-import SAMPLE_ALERTS from '../alert/sample-data';
+import { type Alert, AlertState } from "../alert/alert.type";
+import Severity from '../shared/Severity.component';
 
 const columns: GridColDef<Alert>[] = [
   {
@@ -21,25 +15,7 @@ const columns: GridColDef<Alert>[] = [
     field: 'severity',
     headerName: 'Severity',
     width: 150,
-    renderCell: ({ row }) => {
-      if (row.severity === AlertSeverity.Critical) {
-        return <CriticalSeverity />
-      }
-
-      if (row.severity === AlertSeverity.High) {
-        return <HighSeverity />
-      }
-
-      if (row.severity === AlertSeverity.Medium) {
-        return <MediumSeverity />
-      }
-
-      if (row.severity === AlertSeverity.Low) {
-        return <LowSeverity />
-      }
-
-      return <></>
-    },
+    renderCell: ({ row }) => <Severity severity={row.severity} />,
   },
   {
     field: 'title',
@@ -78,7 +54,14 @@ const AlertListDataGrid = ({ alerts }: AlertListDataGridProps) => ((
     rows={alerts}
     columns={columns}
     getRowClassName={({ row }) => row.state}
-    sx={{ [`.${AlertState.Closed}`]: { bgcolor: "grey", "&:hover": { bgcolor: "darkgrey" } } }}
+    sx={{
+      [`.${AlertState.Closed}`]: {
+        bgcolor: "grey",
+        "&:hover": {
+          bgcolor: "darkgrey"
+        }
+      }
+    }}
     initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
     pageSizeOptions={[5, 10, 15, 20]}
   />
