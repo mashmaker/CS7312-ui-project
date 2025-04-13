@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { ALERT_SEVERITY_LABELS, AlertSeverity } from "../../alert/alert.type";
 
 const HighSeverity = () => (
   <Box sx={{
@@ -10,7 +11,7 @@ const HighSeverity = () => (
     justifyContent: "center",
     backgroundColor: "#FF4F00",
   }}>
-    <Typography textAlign="center" fontWeight="bold">High</Typography>
+    <Typography textAlign="center" fontWeight="bold">{ALERT_SEVERITY_LABELS[AlertSeverity.High]}</Typography>
     <KeyboardArrowUpIcon />
   </Box>
 )

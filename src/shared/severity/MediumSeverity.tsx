@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import { ALERT_SEVERITY_LABELS, AlertSeverity } from "../../alert/alert.type";
 
 const MediumSeverity = () => (
   <Box sx={{
@@ -12,7 +13,7 @@ const MediumSeverity = () => (
     textAlign: "center",
     fontWeight: "bold",
   }}>
-    <Typography textAlign="center" fontWeight="bold" color="#000">Medium</Typography>
+    <Typography textAlign="center" fontWeight="bold" color="#000">{ALERT_SEVERITY_LABELS[AlertSeverity.Medium]}</Typography>
     <KeyboardArrowDownIcon sx={{ color: "#000" }} />
   </Box>
 )

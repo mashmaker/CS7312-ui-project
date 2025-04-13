@@ -8,7 +8,7 @@ import AlertDetailHeader from "./AlertDetailHeader.component";
 import { getSampleAlertById } from "../alert/sample-alerts";
 import AlertDetailBreadcrumbs from "./AlertDetailBreadcrumbs.component";
 import AlertDetailForm from "./AlertDetailForm/AlertDetailForm.component";
-import { Alert, AlertState } from "../alert/alert.type";
+import { Alert, AlertSeverity, AlertState } from "../alert/alert.type";
 import AlertDetailTabs from "./AlertDetailForm/AlertDetailTabs.component";
 
 const TEST_USER = "Test User";
@@ -30,7 +30,7 @@ const AlertDetail = () => {
     setNotification("You are triaging the alert");
   }, []);
 
-  const onInvestigateAlert = useCallback(() => {
+  const onInvestigate = useCallback(() => {
     setAlert((currAlert) => ({
       ...currAlert,
       state: AlertState.Investigating,
@@ -40,7 +40,7 @@ const AlertDetail = () => {
     setNotification("You are investigating the alert");
   }, []);
 
-  const onCloseAlert = useCallback(() => {
+  const onClose = useCallback(() => {
     setAlert((currAlert) => ({
       ...currAlert,
       state: AlertState.Closed,
@@ -50,7 +50,7 @@ const AlertDetail = () => {
     setNotification("You have closed the alert");
   }, []);
 
-  const onReviewAlert = useCallback(() => {
+  const onReview = useCallback(() => {
     setAlert((currAlert) => ({
       ...currAlert,
       state: AlertState.Review,
@@ -59,7 +59,16 @@ const AlertDetail = () => {
     setNotification("You have requested a review");
   }, []);
 
-  const onEscalateAlert = useCallback(() => {
+  const onChangeSeverity = useCallback((newSeverity: AlertSeverity) => {
+    setAlert((currAlert) => ({
+      ...currAlert,
+      severity: newSeverity
+    }));
+
+    setNotification("You have changed the severity");
+  }, []);
+
+  const onEscalate = useCallback(() => {
     setAlert((currAlert) => ({
       ...currAlert,
       state: AlertState.Escalated,
@@ -83,10 +92,11 @@ const AlertDetail = () => {
         <AlertDetailBreadcrumbs alertState={alert.state} />
         <AlertDetailForm
           alert={alert}
-          onInvestigateAlert={onInvestigateAlert}
-          onCloseAlert={onCloseAlert}
-          onReviewAlert={onReviewAlert}
-          onEscalateAlert={onEscalateAlert}
+          onInvestigate={onInvestigate}
+          onClose={onClose}
+          onReview={onReview}
+          onEscalate={onEscalate}
+          onChangeSeverity={onChangeSeverity}
         />
       </Stack>
 

@@ -5,6 +5,13 @@ export enum AlertSeverity {
   Low,
 }
 
+export const ALERT_SEVERITY_LABELS: Record<AlertSeverity, string> = {
+  [AlertSeverity.Critical]: "Critical",
+  [AlertSeverity.High]: "High",
+  [AlertSeverity.Medium]: "Medium",
+  [AlertSeverity.Low]: "Low",
+};
+
 export enum AlertState {
   New,
   Triage,

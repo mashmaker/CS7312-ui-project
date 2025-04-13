@@ -1,22 +1,24 @@
 import { Grid, TextField, Typography } from "@mui/material";
-import { Alert, AlertState } from "../../alert/alert.type";
-import Severity from "../../shared/Severity.component";
+import { Alert, AlertSeverity, AlertState } from "../../alert/alert.type";
 import AlertDetailFormQuickAction from "./AlertDetailFormQuickAction.component";
+import AlertSeverityMenu from "./AlertSeverityMenu.component";
 
 export type AlertDetailFormProps = {
   alert: Alert
-  onInvestigateAlert: () => void;
-  onCloseAlert: () => void;
-  onReviewAlert: () => void;
-  onEscalateAlert: () => void;
+  onInvestigate: () => void;
+  onClose: () => void;
+  onReview: () => void;
+  onEscalate: () => void;
+  onChangeSeverity: (newSeverity: AlertSeverity) => void;
 }
 
 const AlertDetailForm = ({
   alert,
-  onInvestigateAlert,
-  onCloseAlert,
-  onReviewAlert,
-  onEscalateAlert,
+  onInvestigate,
+  onClose,
+  onReview,
+  onEscalate,
+  onChangeSeverity,
 }: AlertDetailFormProps) => (
   <>
     <Grid container>
@@ -26,7 +28,7 @@ const AlertDetailForm = ({
       </Grid>
 
       <Grid size={2}>
-        <Severity severity={alert.severity} />
+        <AlertSeverityMenu severity={alert.severity} onChangeSeverity={onChangeSeverity} />
       </Grid>
     </Grid>
 
@@ -34,10 +36,10 @@ const AlertDetailForm = ({
       <Grid size={4} marginTop={1}>
         <AlertDetailFormQuickAction
           state={alert.state}
-          onInvestigateAlert={onInvestigateAlert}
-          onCloseAlert={onCloseAlert}
-          onReviewAlert={onReviewAlert}
-          onEscalateAlert={onEscalateAlert}
+          onInvestigate={onInvestigate}
+          onClose={onClose}
+          onReview={onReview}
+          onEscalate={onEscalate}
         />
       </Grid>
 

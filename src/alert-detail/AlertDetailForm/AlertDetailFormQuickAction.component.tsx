@@ -7,18 +7,18 @@ import CloseIcon from "@mui/icons-material/Close";
 
 type AlertDetailFormQuickActionProps = {
   state: AlertState;
-  onInvestigateAlert: () => void;
-  onCloseAlert: () => void;
-  onReviewAlert: () => void;
-  onEscalateAlert: () => void;
+  onInvestigate: () => void;
+  onClose: () => void;
+  onReview: () => void;
+  onEscalate: () => void;
 };
 
 const AlertDetailFormQuickAction = ({
   state,
-  onInvestigateAlert,
-  onReviewAlert,
-  onEscalateAlert,
-  onCloseAlert,
+  onInvestigate,
+  onReview,
+  onEscalate,
+  onClose,
 }: AlertDetailFormQuickActionProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -26,22 +26,22 @@ const AlertDetailFormQuickAction = ({
   const handleMenuClose = () => setAnchorEl(null);
 
   const handleInvestigateAlertClick = () => {
-    onInvestigateAlert();
+    onInvestigate();
     handleMenuClose();
   };
 
   const handleReviewClick = () => {
-    onReviewAlert();
+    onReview();
     handleMenuClose();
   };
 
   const handleEscalateClick = () => {
-    onEscalateAlert();
+    onEscalate();
     handleMenuClose();
   };
 
   const handleCloseAlertClick = () => {
-    onCloseAlert();
+    onClose();
     handleMenuClose();
   };
 
