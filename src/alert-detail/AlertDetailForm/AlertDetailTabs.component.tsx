@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Grid, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AlertListDataGrid from "../../alert-list/AlertListDataGrid/AlertListDataGrid.component";
 import { Alert, AlertState } from "../../alert/alert.type";
@@ -130,7 +130,16 @@ const AlertDetailTabs = ({ alert }: AlertDetailTabsProps) => {
       )}
 
       {tab === TABS.CLOSE_NOTES && (
-        <Box marginTop={2}>
+        <Stack direction="column" spacing={2}>
+          {alert.state === AlertState.Closed && (
+            <TextField
+              label="Closed By"
+              disabled
+              value={alert.closedBy || ""}
+              fullWidth
+            />
+          )}
+
           <TextField
             multiline
             minRows={3}
@@ -139,7 +148,7 @@ const AlertDetailTabs = ({ alert }: AlertDetailTabsProps) => {
             fullWidth
             disabled
           />
-        </Box>
+        </Stack>
       )}
     </>
   )

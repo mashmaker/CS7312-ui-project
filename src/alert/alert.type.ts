@@ -30,13 +30,18 @@ export const ALERT_STATE_LABELS: Record<AlertState, string> = {
   [AlertState.Closed]: "Closed",
 }
 
+export enum AlertCategory {
+  SIEM,
+  EDR,
+}
+
 export type Alert = {
   id: number,
   title: string,
+  category: AlertCategory,
   severity: AlertSeverity,
   state: AlertState,
-  age: string,
-  createdDate: string,
+  createdOn: Date,
   assignedTo?: string,
   triagedBy?: string,
   reviewedBy?: string,
@@ -45,6 +50,7 @@ export type Alert = {
 }
 
 export type SIEMAlert = Alert & {
+  category: AlertCategory.SIEM,
   sourceHost: string;
   destinationHost: string;
   sourceIP: string;
@@ -54,7 +60,9 @@ export type SIEMAlert = Alert & {
 }
 
 export type EDRAlert = Alert & {
+  category: AlertCategory.EDR,
   isQuarantined: boolean;
   process: string;
   parentProcess: string;
+  host: string;
 }

@@ -7,12 +7,57 @@ import { type Alert, ALERT_STATE_LABELS, AlertState } from "../../alert/alert.ty
 import Severity from '../../shared/Severity.component';
 import SAMPLE_ALERTS from '../../alert/sample-alerts';
 import AlertListSearch from './AlertListSearch.component';
+import { DateTime } from 'luxon';
 
 const columns: GridColDef<Alert>[] = [
   {
-    field: 'age',
+    field: 'createdOn',
     headerName: 'Age',
     width: 150,
+    headerAlign: "center",
+    align: "center",
+    valueGetter: (_value, row) => {
+      const diff = DateTime.now().diff(DateTime.fromJSDate(row.createdOn), [
+          'years',
+          'months',
+          'days',
+          'hours',
+          'minutes',
+          'seconds',
+        ]);
+
+        const years = Math.floor(diff.years);
+        if (years > 0) {
+          return years === 1 ? '1 year' : `${years} years`;
+        }
+
+        const months = Math.floor(diff.months);
+        if (months > 0) {
+          return months === 1 ? '1 month' : `${months} months`;
+        }
+
+        const days = Math.floor(diff.days);
+        if (days > 0) {
+          return days === 1 ? '1 day' : `${days} days`;
+        }
+
+        const hours = Math.floor(diff.hours);
+        if (hours > 0) {
+          return hours === 1 ? '1 hour' : `${hours} hours`;
+        }
+
+        const minutes = Math.floor(diff.minutes);
+        if (minutes > 0) {
+          return minutes === 1 ? '1 minute' : `${minutes} minutes`;
+        }
+
+        const seconds = Math.floor(diff.seconds);
+        if (seconds > 0) {
+          return seconds === 1 ? '1 second' : `${seconds} seconds`;
+        }
+
+        return 'now';
+    }
   },
   {
     field: 'severity',
