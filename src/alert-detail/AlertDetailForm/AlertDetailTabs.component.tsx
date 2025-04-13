@@ -1,36 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Grid, Tab, Tabs, TextField, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AlertListDataGrid from "../../alert-list/AlertListDataGrid/AlertListDataGrid.component";
-import { Alert } from "../../alert/alert.type";
+import { Alert, AlertState } from "../../alert/alert.type";
 
 export type AlertDetailTabsProps = {
   alert: Alert
 };
 
+const TABS = {
+  DETAILS: "Details",
+  RELATED_ALERTS: "Related Alerts",
+  CLOSE_NOTES: "Close Notes"
+} as const;
+type Tab = typeof TABS[keyof typeof TABS];
+
 const AlertDetailTabs = ({ alert }: AlertDetailTabsProps) => {
-  const [tab, setTab] = useState<number>(0);
+  const [tab, setTab] = useState<Tab>(TABS.DETAILS);
   const [isEditable, setIsEditable] = useState<boolean>(false);
 
-  const handleChangeTab = (_evt: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue);
+  const handleChangeTab = (_evt: React.SyntheticEvent, newTab: Tab) => {
+    setTab(newTab);
   };
 
   const handleEditClick = () => {
     setIsEditable(!isEditable);
   }
 
+  useEffect(() => {
+    if (alert.state === AlertState.Closed) {
+      setTab(TABS.CLOSE_NOTES);
+    }
+  }, [alert.state]);
+
   return (
     <>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', marginY: 4 }}>
         <Tabs value={tab} onChange={handleChangeTab}>
-          <Tab label="Details" value={0} />
-          <Tab label="Related Alerts" value={1} />
+          <Tab label="Details" value={TABS.DETAILS} />
+          <Tab label="Related Alerts" value={TABS.RELATED_ALERTS} />
+          <Tab label="Close Notes" value={TABS.CLOSE_NOTES} />
         </Tabs>
       </Box>
 
-      {tab === 0 && (
-        <Box marginTop={4}>
+      {tab === TABS.DETAILS && (
+        <Box>
           <Grid container columnSpacing={2} rowSpacing={4}>
             <Grid size={12} textAlign="right">
               <Button variant="outlined" size="large" onClick={handleEditClick}>
@@ -105,12 +119,25 @@ const AlertDetailTabs = ({ alert }: AlertDetailTabsProps) => {
         </Box>
       )}
 
-      {tab === 1 && (
+      {tab === TABS.RELATED_ALERTS && (
         <Box marginTop={2}>
           <AlertListDataGrid
             showClosed
             excludeId={alert.id}
             defaultQuery={`title=${alert.title}`}
+          />
+        </Box>
+      )}
+
+      {tab === TABS.CLOSE_NOTES && (
+        <Box marginTop={2}>
+          <TextField
+            multiline
+            minRows={3}
+            value={alert.closeNotes || ""}
+            label="Close Notes"
+            fullWidth
+            disabled
           />
         </Box>
       )}

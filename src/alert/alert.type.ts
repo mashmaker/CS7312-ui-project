@@ -41,5 +41,20 @@ export type Alert = {
   triagedBy?: string,
   reviewedBy?: string,
   closedBy?: string,
-  closeNote?: string;
+  closeNotes?: string;
+}
+
+export type SIEMAlert = Alert & {
+  sourceHost: string;
+  destinationHost: string;
+  sourceIP: string;
+  destinationIP: string;
+  sourceUser: string;
+  destinationUser: string;
+}
+
+export type EDRAlert = Alert & {
+  isQuarantined: boolean;
+  process: string;
+  parentProcess: string;
 }
