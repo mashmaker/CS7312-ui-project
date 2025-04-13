@@ -1,6 +1,6 @@
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Box, Breadcrumbs, Typography } from "@mui/material";
-import { AlertState } from "../alert/alert.type";
+import { ALERT_STATE_LABELS, AlertState } from "../alert/alert.type";
 import clsx from "clsx";
 
 export type AlertBreadcrumbsProps = {
@@ -9,12 +9,12 @@ export type AlertBreadcrumbsProps = {
 
 const AlertBreadcrumbs = ({ alertState }: AlertBreadcrumbsProps) => {
   const breadcrumbs = [
-    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.New })}>{AlertState.New}</Typography>,
-    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Triage })}>{AlertState.Triage}</Typography>,
-    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Investigating })}>{AlertState.Investigating}</Typography>,
-    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Review })}>{AlertState.Review}</Typography>,
-    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Escalated })}>{AlertState.Escalated}</Typography>,
-    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Closed })}>{AlertState.Closed}</Typography>,
+    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.New })}>{ALERT_STATE_LABELS[AlertState.New]}</Typography>,
+    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Triage })}>{ALERT_STATE_LABELS[AlertState.Triage]}</Typography>,
+    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Investigating })}>{ALERT_STATE_LABELS[AlertState.Investigating]}</Typography>,
+    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Review })}>{ALERT_STATE_LABELS[AlertState.Review]}</Typography>,
+    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Escalated })}>{ALERT_STATE_LABELS[AlertState.Escalated]}</Typography>,
+    <Typography variant="h6" className={clsx("breadcrumb-item", { active: alertState === AlertState.Closed })}>{ALERT_STATE_LABELS[AlertState.Closed]}</Typography>,
   ];
 
   return (

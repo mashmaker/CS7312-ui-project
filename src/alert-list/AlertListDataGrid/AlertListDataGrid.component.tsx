@@ -3,9 +3,9 @@ import { NavLink } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-import { type Alert, AlertState } from "../../alert/alert.type";
+import { type Alert, ALERT_STATE_LABELS, AlertState } from "../../alert/alert.type";
 import Severity from '../../shared/Severity.component';
-import SAMPLE_ALERTS from '../../alert/sample-data';
+import SAMPLE_ALERTS from '../../alert/sample-alerts';
 import AlertListSearch from './AlertListSearch.component';
 
 const columns: GridColDef<Alert>[] = [
@@ -18,6 +18,7 @@ const columns: GridColDef<Alert>[] = [
     field: 'severity',
     headerName: 'Severity',
     width: 150,
+    headerAlign: "center",
     renderCell: ({ row }) => <Severity severity={row.severity} />,
   },
   {
@@ -30,7 +31,8 @@ const columns: GridColDef<Alert>[] = [
     headerName: 'State',
     width: 150,
     headerAlign: "center",
-    align: "center"
+    align: "center",
+    valueGetter: (state) => ALERT_STATE_LABELS[state],
   },
   {
     field: 'actions',
@@ -92,7 +94,7 @@ const AlertListDataGrid = ({ showClosed, excludeId, defaultQuery = "" }: AlertLi
       <DataGrid
         rows={alerts}
         columns={columns}
-        getRowClassName={({ row }) => row.state}
+        getRowClassName={({ row }) => ALERT_STATE_LABELS[row.state]}
         sx={{
           [`.${AlertState.Closed}`]: {
             bgcolor: "grey",

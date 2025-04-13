@@ -1,5 +1,5 @@
 import { Box, Stack, Switch, Typography } from "@mui/material";
-import SAMPLE_ALERTS from "../alert/sample-data";
+import SAMPLE_ALERTS from "../alert/sample-alerts";
 import { AlertState } from "../alert/alert.type";
 
 export type AlertListHeaderProps = {

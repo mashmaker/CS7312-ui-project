@@ -1,17 +1,26 @@
 export enum AlertSeverity {
-  Critical = "Critical",
-  High = "High",
-  Medium = "Medium",
-  Low = "Low",
+  Critical,
+  High,
+  Medium,
+  Low,
 }
 
 export enum AlertState {
-  New = "New",
-  Triage = "Triage",
-  Investigating = "Investigating",
-  Review = "Review",
-  Escalated = "Escalated",
-  Closed = "Closed",
+  New,
+  Triage,
+  Investigating,
+  Review,
+  Escalated,
+  Closed,
+}
+
+export const ALERT_STATE_LABELS: Record<AlertState, string> = {
+  [AlertState.New]: "New",
+  [AlertState.Triage]: "Triage",
+  [AlertState.Investigating]: "Investigating",
+  [AlertState.Review]: "Review",
+  [AlertState.Escalated]: "Escalated",
+  [AlertState.Closed]: "Closed",
 }
 
 export type Alert = {

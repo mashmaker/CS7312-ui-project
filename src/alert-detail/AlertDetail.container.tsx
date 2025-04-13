@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import Page from "../layout/Page";
 import AlertDetailHeader from "./AlertDetailHeader.component";
-import { getSampleAlertById } from "../alert/sample-data";
+import { getSampleAlertById } from "../alert/sample-alerts";
 import AlertDetailBreadcrumbs from "./AlertDetailBreadcrumbs.component";
 import AlertDetailForm from "./AlertDetailForm/AlertDetailForm.component";
 import { Alert, AlertState } from "../alert/alert.type";
